@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tabel Data Mahasiswa Teknik Informatika</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            max-width: 1200px;
+            width: 100%;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            color: #2c3e50;
+            font-size: 2.5em;
+            font-weight: 700;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .header p {
+            color: #7f8c8d;
+            font-size: 1.1em;
+            font-weight: 500;
+        }
+
+        .table-wrapper {
+            overflow-x: auto;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+        }
+
+        thead {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        thead th {
+            color: white;
+            font-weight: 600;
+            padding: 20px 15px;
+            text-align: left;
+            font-size: 1.1em;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            position: relative;
+        }
+
+        thead th:not(:last-child)::after {
+            content: '';
+            position: absolute;
+            right: 0;
+            top: 25%;
+            height: 50%;
+            width: 1px;
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        tbody tr {
+            transition: all 0.3s ease;
+            border-bottom: 1px solid #eee;
+        }
+
+        tbody tr:hover {
+            background: linear-gradient(135deg, #f8f9ff 0%, #f0f2ff 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.1);
+        }
+
+        tbody tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+
+        tbody tr:nth-child(even):hover {
+            background: linear-gradient(135deg, #f0f2ff 0%, #e8ebff 100%);
+        }
+
+        tbody td {
+            padding: 18px 15px;
+            color: #2c3e50;
+            font-weight: 500;
+            border-right: 1px solid #eee;
+        }
+
+        tbody td:last-child {
+            border-right: none;
+        }
+
+        .nim {
+            font-family: 'Courier New', monospace;
+            font-weight: 600;
+            color: #667eea;
+        }
+
+        .nama {
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        .jurusan {
+            color: #27ae60;
+            font-weight: 600;
+        }
+
+        .semester {
+            text-align: center;
+            font-weight: 700;
+            color: #e74c3c;
+            background: #ffeaea;
+            border-radius: 8px;
+            padding: 5px 10px;
+            display: inline-block;
+            min-width: 30px;
+        }
+
+        .ipk {
+            text-align: center;
+            font-weight: 700;
+            padding: 8px 12px;
+            border-radius: 8px;
+            color: white;
+            display: inline-block;
+            min-width: 50px;
+        }
+
+        .ipk.excellent { background: linear-gradient(135deg, #27ae60, #2ecc71); }
+        .ipk.good { background: linear-gradient(135deg, #f39c12, #f1c40f); }
+        .ipk.average { background: linear-gradient(135deg, #e67e22, #f39c12); }
+        .ipk.below { background: linear-gradient(135deg, #e74c3c, #c0392b); }
+
+        .status {
+            text-align: center;
+            font-weight: 600;
+            padding: 8px 16px;
+            border-radius: 20px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.9em;
+        }
+
+        .status.aktif {
+            background: linear-gradient(135deg, #2ecc71, #27ae60);
+            color: white;
+            box-shadow: 0 4px 15px rgba(46, 204, 113, 0.3);
+        }
+
+        .status.cuti {
+            background: linear-gradient(135deg, #f39c12, #e67e22);
+            color: white;
+            box-shadow: 0 4px 15px rgba(243, 156, 18, 0.3);
+        }
+
+        .status.lulus {
+            background: linear-gradient(135deg, #9b59b6, #8e44ad);
+            color: white;
+            box-shadow: 0 4px 15px rgba(155, 89, 182, 0.3);
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            color: #7f8c8d;
+            font-style: italic;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+                margin: 10px;
+            }
+            
+            .header h1 {
+                font-size: 2em;
+            }
+            
+            thead th,
+            tbody td {
+                padding: 12px 8px;
+                font-size: 0.9em;
+            }
+            
+            .table-wrapper {
+                font-size: 0.85em;
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .container {
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        .header h1:hover {
+            color: #667eea;
+            transition: color 0.3s ease;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Data Mahasiswa Teknik Informatika</h1>
+            <p>Sistem Informasi Akademik - Universitas Muhammadiyah Riau</p>
+        </div>
+        
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th>NIM</th>
+                        <th>Nama Lengkap</th>
+                        <th>Program Studi</th>
+                        <th>Semester</th>
+                        <th>IPK</th>
+                        <th>Status</th>
+                        <th>Tahun Masuk</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="nim">210001</td>
+                        <td class="nama">Ahmad Fauzi Rahman</td>
+                        <td class="jurusan">Teknik Informatika</td>
+                        <td><span class="semester">6</span></td>
+                        <td><span class="ipk excellent">3.85</span></td>
+                        <td><span class="status aktif">Aktif</span></td>
+                        <td>2021</td>
+                    </tr>
+                    <tr>
+                        <td class="nim">210002</td>
+                        <td class="nama">Siti Nurhaliza Putri</td>
+                        <td class="jurusan">Teknik Informatika</td>
+                        <td><span class="semester">6</span></td>
+                        <td><span class="ipk excellent">3.92</span></td>
+                        <td><span class="status aktif">Aktif</span></td>
+                        <td>2021</td>
+                    </tr>
+                    <tr>
+                        <td class="nim">200015</td>
+                        <td class="nama">Muhammad Rizky Pratama</td>
+                        <td class="jurusan">Teknik Informatika</td>
+                        <td><span class="semester">8</span></td>
+                        <td><span class="ipk lulus">3.65</span></td>
+                        <td><span class="status lulus">Lulus</span></td>
+                        <td>2020</td>
+                    </tr>
+                    <tr>
+                        <td class="nim">210003</td>
+                        <td class="nama">Dewi Kartika Sari</td>
+                        <td class="jurusan">Teknik Informatika</td>
+                        <td><span class="semester">5</span></td>
+                        <td><span class="ipk good">3.45</span></td>
+                        <td><span class="status cuti">Cuti</span></td>
+                        <td>2021</td>
+                    </tr>
+                    <tr>
+                        <td class="nim">220001</td>
+                        <td class="nama">Bayu Aji Pangestu</td>
+                        <td class="jurusan">Teknik Informatika</td>
+                        <td><span class="semester">4</span></td>
+                        <td><span class="ipk excellent">3.78</span></td>
+                        <td><span class="status aktif">Aktif</span></td>
+                        <td>2022</td>
+                    </tr>
+                    <tr>
+                        <td class="nim">220002</td>
+                        <td class="nama">Rina Wulandari</td>
+                        <td class="jurusan">Teknik Informatika</td>
+                        <td><span class="semester">4</span></td>
+                        <td><span class="ipk good">3.55</span></td>
+                        <td><span class="status aktif">Aktif</span></td>
+                        <td>2022</td>
+                    </tr>
+                    <tr>
+                        <td class="nim">190008</td>
+                        <td class="nama">Kevin Ananda Wijaya</td>
+                        <td class="jurusan">Teknik Informatika</td>
+                        <td><span class="semester">8</span></td>
+                        <td><span class="ipk excellent">3.88</span></td>
+                        <td><span class="status lulus">Lulus</span></td>
+                        <td>2019</td>
+                    </tr>
+                    <tr>
+                        <td class="nim">230001</td>
+                        <td class="nama">Maya Anggraini</td>
+                        <td class="jurusan">Teknik Informatika</td>
+                        <td><span class="semester">2</span></td>
+                        <td><span class="ipk good">3.42</span></td>
+                        <td><span class="status aktif">Aktif</span></td>
+                        <td>2023</td>
+                    </tr>
+                    <tr>
+                        <td class="nim">210004</td>
+                        <td class="nama">Dimas Aditya Saputra</td>
+                        <td class="jurusan">Teknik Informatika</td>
+                        <td><span class="semester">6</span></td>
+                        <td><span class="ipk average">3.25</span></td>
+                        <td><span class="status aktif">Aktif</span></td>
+                        <td>2021</td>
+                    </tr>
+                    <tr>
+                        <td class="nim">220003</td>
+                        <td class="nama">Indira Kusuma Dewi</td>
+                        <td class="jurusan">Teknik Informatika</td>
+                        <td><span class="semester">4</span></td>
+                        <td><span class="ipk excellent">3.95</span></td>
+                        <td><span class="status aktif">Aktif</span></td>
+                        <td>2022</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="footer">
+            <p>Tugas Praktikum Pemrograman Web | Teknik Informatika</p>
+        </div>
+    </div>
+</body>
+</html>
